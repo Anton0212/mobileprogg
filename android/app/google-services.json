@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "917948129525",
+    "project_id": "travelocations-3bf5d",
+    "storage_bucket": "travelocations-3bf5d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917948129525:android:70c122758d53db962ee5bc",
+        "android_client_info": {
+          "package_name": "com.travellocationsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuTMJWYilJM3OI51fFqKQw86KQZTahlM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
