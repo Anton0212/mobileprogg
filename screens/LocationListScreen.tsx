@@ -16,6 +16,7 @@ export default function LocationListScreen() {
             <Text>{item.name}</Text>
           </View>
         )}
+        ListEmptyComponent={<Text>No locations added yet.</Text>}
       />
     </View>
   );
