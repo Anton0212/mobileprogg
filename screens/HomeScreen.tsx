@@ -1,33 +1,25 @@
-console.log('HomeScreen loaded');
-
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import { View, Button, StyleSheet } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
-// 1. Define the type for your navigation stack
-type RootStackParamList = {
-  Home: undefined;
-  Details: undefined;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-// 2. Define a navigation prop type for this screen
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
-
-export default function HomeScreen() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
-
+export default function HomeScreen({ navigation }: Props) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Hello from Home screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
+    <View style={styles.container}>
+      <Button title="Go to Details" onPress={() => navigation.navigate('Details')} />
+      <Button title="View Locations" onPress={() => navigation.navigate('Locations')} />
+      <Button title="Add Location" onPress={() => navigation.navigate('AddLocation')} />
+      <Button title="View Map" onPress={() => navigation.navigate('Map')} />
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-around',
+    padding: 20,
+  },
+});

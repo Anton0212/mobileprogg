@@ -1,5 +1,5 @@
 {
-  "name": "TravelLocationsApp",
+  "name": "travel-locations-app",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,6 +15,7 @@
     "expo": "^53.0.9",
     "react": "19.0.0",
     "react-native": "0.79.2",
+    "react-native-maps": "^1.23.8",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "~4.10.0"
   },
