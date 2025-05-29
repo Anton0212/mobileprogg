@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "tempfixapp",
+    "slug": "tempfixapp",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.yourname.tempfixapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.yourname.tempfixapp",
+      "supportsTablet": true
+    },
+    "icon": "./assets/images/icon.png",
+    "scheme": "tempfixapp",
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
+    ]
+  }
+}
