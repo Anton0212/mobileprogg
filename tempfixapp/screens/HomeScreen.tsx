@@ -11,7 +11,11 @@ export default function HomeScreen({ navigation }: Props) {
       <Button title="Go to Details" onPress={() => navigation.navigate('Details')} />
       <Button title="View Locations" onPress={() => navigation.navigate('Locations')} />
       <Button title="Add Location" onPress={() => navigation.navigate('AddLocation')} />
-      <Button title="View Map" onPress={() => navigation.navigate('Map', { location: null })} />
+      <Button
+  title="View Map"
+  onPress={() => navigation.navigate('Map' as any)}
+/>
+
     </View>
   );
 }

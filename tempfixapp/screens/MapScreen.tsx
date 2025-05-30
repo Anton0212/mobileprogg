@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert, Platform } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -8,11 +8,11 @@ import { Location as LocationType } from '../context/LocationContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Map'>;
 
-export default function MapScreen({ route, navigation }: Props) {
-  const location: LocationType | null | undefined = route.params?.location ?? null;
+export default function MapScreen({ route }: Props) {
+  const location: LocationType | undefined = route.params?.location;
 
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-  const [loadingUserLocation, setLoadingUserLocation] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -20,7 +20,7 @@ export default function MapScreen({ route, navigation }: Props) {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert('Permission denied', 'Permission to access location was denied.');
-          setLoadingUserLocation(false);
+          setLoading(false);
           return;
         }
 
@@ -32,24 +32,41 @@ export default function MapScreen({ route, navigation }: Props) {
       } catch (error) {
         Alert.alert('Error', 'Failed to get user location.');
       } finally {
-        setLoadingUserLocation(false);
+        setLoading(false);
       }
     })();
   }, []);
 
-  if (!location) {
+  if (loading) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.message}>No location data provided. Please select a location.</Text>
+        <ActivityIndicator size="large" />
+        <Text>Loading location...</Text>
       </View>
     );
   }
 
-  if (loadingUserLocation) {
+  // Määritä kartan keskipiste: joko valittu paikka tai käyttäjän sijainti
+  const region = location
+    ? {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      }
+    : userLocation
+    ? {
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      }
+    : null;
+
+  if (!region) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" />
-        <Text>Loading your location...</Text>
+        <Text>Unable to determine location.</Text>
       </View>
     );
   }
@@ -57,24 +74,21 @@ export default function MapScreen({ route, navigation }: Props) {
   return (
     <MapView
       style={styles.map}
-      provider={PROVIDER_GOOGLE} // Use Google Maps on Android and iOS
+      provider={PROVIDER_GOOGLE}
+      initialRegion={region}
       showsUserLocation={true}
-      initialRegion={{
-        latitude: location.latitude,
-        longitude: location.longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      }}
       showsMyLocationButton={true}
       zoomControlEnabled={true}
       loadingEnabled={true}
     >
-      <Marker
-        coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-        title={location.name}
-        description={location.description}
-      />
-      {userLocation && (
+      {location && (
+        <Marker
+          coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+          title={location.name}
+          description={location.description}
+        />
+      )}
+      {!location && userLocation && (
         <Marker
           coordinate={userLocation}
           title="Your Location"
@@ -93,10 +107,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  message: {
-    fontSize: 16,
-    paddingHorizontal: 20,
-    textAlign: 'center',
   },
 });

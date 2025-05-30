@@ -16,7 +16,7 @@ export type RootStackParamList = {
   Details: undefined;
   Locations: undefined;
   AddLocation: undefined;
-  Map: { location: Location };
+  Map: { location?: Location };
   EditLocation: { location: Location };
 };
 
